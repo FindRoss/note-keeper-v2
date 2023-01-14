@@ -1,38 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0%;
+  padding: 0%;
+  background-color: #f0f0f0;
+  font-family: "Roboto", sans-serif;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header img {
+  width: 100%;
+  height: 40px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header .plus {
+  font-weight: light;
+  color: #757575;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.input-container {
+  width: 100%;
+  max-width: 450px;
+}
+
+.input-container form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.input-container input,
+.input-container textarea {
+  width: 100%;
+  display: block;
+  border: 0;
+  outline: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: transparent;
+  letter-spacing: normal;
+  font-family: "Roboto", sans-serif;
+  color: #202124;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.input-container input {
+  font-size: 1.2rem;
+}
+
+.input-container textarea {
+  resize: none;
+  line-height: 1.5;
+  min-height: 5em;
+  max-height: 50vh;
+  width: 100%;
+  font-weight: 500;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  border-radius: 180px;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 2rem;
+  font-family: "Roboto", sans-serif;
+  background-color: #fbbc04;
+  border: 2px solid transparent;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+
+button:hover {
+  background-color: #f7ab02;
+  /* boder: 2px solid #fbbc04; */
+}
+
+button:active {
+  background-color: #f29900;
+  /* border: 2px solid #f29900; */
+}
+
+button:focus {
+  border: 2px solid #f29900;
+}
+
+.note-list {
+  width: 100%;
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+}
+
+.note {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  width: 100%;
+  font-weight: bold;
+  color: #202124;
+}
+
+.note .title {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.note .content {
+  font-weight: 500;
+}
+
+/* MEDIA QUERIS */
+@media screen and (min-width: 600px) {
+  .note-list {
+    grid-template-columns: 1fr 1fr;
   }
 }
