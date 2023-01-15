@@ -96,7 +96,7 @@ body {
   justify-content: flex-end;
 }
 
-button {
+form button {
   width: 40px;
   height: 40px;
   border: none;
@@ -111,17 +111,17 @@ button {
   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
 }
 
-button:hover {
+form button:hover {
   background-color: #f7ab02;
   /* boder: 2px solid #fbbc04; */
 }
 
-button:active {
+form button:active {
   background-color: #f29900;
   /* border: 2px solid #f29900; */
 }
 
-button:focus {
+form button:focus {
   border: 2px solid #f29900;
 }
 
@@ -136,8 +136,8 @@ button:focus {
 .note {
   background: #ffffff;
   border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  padding: 1rem 1rem 0.5rem;
+  /* box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%); */
   width: 100%;
   font-weight: bold;
   color: #202124;
@@ -150,6 +150,34 @@ button:focus {
 
 .note .content {
   font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+.note:hover {
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+
+.delete {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete span {
+  padding: 0.4rem;
+  border-radius: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.delete span:hover {
+  background: #f0f0f0;
+}
+
+.delete-icon {
+  width: 20px;
+  height: 20px;
 }
 
 /* MEDIA QUERIS */

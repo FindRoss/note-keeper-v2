@@ -5,6 +5,7 @@ import Header from './components/Header';
 import { INote } from './Interfaces';
 
 // inspiration
+// https://keep-vue.netlify.app
 
 
 const App: FC = () => {
@@ -13,7 +14,7 @@ const App: FC = () => {
   const [noteList, setNoteList] = useState<INote[]>([]);
   const [showTitle, setShowTitle] = useState<boolean>(false);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
     if (event.target.name === "title") {
       setTitle(event.target.value);
     } else {
@@ -31,21 +32,25 @@ const App: FC = () => {
     setContent("");
   };
 
-  function handleClick (event: React.MouseEvent<HTMLElement>): void {
+  function handleFormClick (event: React.MouseEvent<HTMLElement>): void {
     const formEl: HTMLElement | null = document.querySelector('.input-container');
     const targetEl = event.target as HTMLElement;
     if (!formEl?.contains(targetEl)) setShowTitle(false);
   }
 
-
+  function handleDelete (id: string | undefined): void {
+    setNoteList(noteList.filter(note => {
+      return note.title !== id;
+    }))
+  }
 
   return (
-    <div className="App" onClick={(event) => handleClick(event)}>
+    <div className="App" onClick={(event) => handleFormClick(event)}>
       <Header />
       <div className="input-container">
         <form>
-          <input type="text" placeholder="Title..." name="title" value={title} onChange={handleChange} style={{ display: `${showTitle ? "block" : "none" } `}}/>
-          <textarea placeholder="Note..." name="content" value={content} onClick={(): void => setShowTitle(true)} onChange={handleChange} />
+          <input type="text" placeholder="Title..." name="title" value={title} onChange={handleInputChange} style={{ display: `${showTitle ? "block" : "none" } `}}/>
+          <textarea placeholder="Note..." name="content" value={content} onClick={(): void => setShowTitle(true)} onChange={handleInputChange} />
           <div className="button-container">
            <button onClick={addNote}>+</button>
           </div>
@@ -53,7 +58,7 @@ const App: FC = () => {
       </div>
       <div className="note-list">
         {noteList.map((note: INote, key: number) => {
-          return <Note key={key} note={note} />;
+          return <Note key={key} note={note} handleDelete={handleDelete}/>;
         })}
       </div>
     </div>
