@@ -1,18 +1,37 @@
-import {FC, ChangeEvent, useState} from 'react';
+import {FC, ChangeEvent, useState, useEffect} from 'react';
 import './App.css';
 import Note from './components/Note';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import { INote } from './Interfaces';
 
 // inspiration
 // https://keep-vue.netlify.app
 
+// Guide to hosting the backend on Render.com
+// https://dev.to/gregpetropoulos/render-deployment-free-tier-of-mern-app-52mk
+
 
 const App: FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [noteList, setNoteList] = useState<INote[]>([]);
+  const [notes, setNotes] = useState<INote[]>([]);
   const [showTitle, setShowTitle] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //   const response = await fetch("http://localhost:5000/note")
+
+  //   if (!response.ok) {
+  //     window.alert(`An error has occured: ${response.statusText}`);
+  //     return; 
+  //   }
+  //   const data = await response.json();
+  //   setNotes(data);
+  //  }
+
+  //  fetchData();
+  // }, [])
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
     if (event.target.name === "title") {
@@ -22,15 +41,40 @@ const App: FC = () => {
     }
   };
 
+  // Temporary function which will replaced by the addNotes POST below
   function addNote(event: React.FormEvent<HTMLButtonElement>): void {
     event.preventDefault();
     const newNote = { title, content };
     // Validate note
     if (title === "" && content === "") return alert("Please fill in atleast one field.")
-    setNoteList([...noteList, newNote]);
+    setNotes([...notes, newNote]);
     setTitle("");
     setContent("");
   };
+
+  // async function addNote(event: React.FormEvent<HTMLButtonElement>) {
+  //   event.preventDefault();
+
+  //   if (title === "" && content === "") return alert("Please fill in atleast one field.")
+  
+  //   // When a post request is sent to the create url, we'll add a new record to the database.
+  //   const newNote = { title, content };
+  
+  //   await fetch("http://localhost:5000/note/add", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(newNote),
+  //   })
+  //   .catch(error => {
+  //     window.alert(error);
+  //     return;
+  //   });
+    
+  //   setTitle("");
+  //   setContent("");
+  // }
 
   function handleFormClick (event: React.MouseEvent<HTMLElement>): void {
     const formEl: HTMLElement | null = document.querySelector('.input-container');
@@ -39,7 +83,7 @@ const App: FC = () => {
   }
 
   function handleDelete (id: string | undefined): void {
-    setNoteList(noteList.filter(note => {
+    setNotes(notes.filter(note => {
       return note.title !== id;
     }))
   }
@@ -57,10 +101,11 @@ const App: FC = () => {
         </form>
       </div>
       <div className="note-list">
-        {noteList.map((note: INote, key: number) => {
+        {notes.map((note: INote, key: number) => {
           return <Note key={key} note={note} handleDelete={handleDelete}/>;
         })}
       </div>
+      <Footer />
     </div>
   );
 }
