@@ -23,6 +23,9 @@ const App: FC = () => {
 
   useEffect(() => {
     async function fetchData() {
+    
+    console.log("Trying to log the env variable: ", process.env.REACT_APP_URL);
+
     const response = await fetch(`${process.env.REACT_APP_URL}/api/note`)
 
     if (!response.ok) {
