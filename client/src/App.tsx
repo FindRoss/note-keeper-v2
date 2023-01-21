@@ -23,7 +23,7 @@ const App: FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-    const response = await fetch(`${process.env.REACT_APP_URL}/api/note`)
+    const response = await fetch(`https://note-keeper-v2-root.onrender.com/api/note`)
 
     if (!response.ok) {
       window.alert(`An error has occured: ${response.statusText}`);
