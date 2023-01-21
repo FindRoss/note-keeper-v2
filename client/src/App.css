@@ -125,10 +125,13 @@ form button:focus {
   border: 2px solid #f29900;
 }
 
-.note-list {
+.note-list-container {
   flex: 1;
   width: 100%;
   padding-top: 2rem;
+}
+
+.note-list {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1rem;

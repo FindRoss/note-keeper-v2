@@ -11,6 +11,9 @@ import { INote } from './Interfaces';
 // Guide to hosting the backend on Render.com
 // https://dev.to/gregpetropoulos/render-deployment-free-tier-of-mern-app-52mk
 
+// Another one
+// https://javascript.plainenglish.io/deployment-of-mern-full-stack-app-on-render-com-f31820514b3a
+
 
 const App: FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -18,20 +21,20 @@ const App: FC = () => {
   const [notes, setNotes] = useState<INote[]>([]);
   const [showTitle, setShowTitle] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //   const response = await fetch("http://localhost:5000/note")
+  useEffect(() => {
+    async function fetchData() {
+    const response = await fetch(`${process.env.REACT_APP_URL}/api/note`)
 
-  //   if (!response.ok) {
-  //     window.alert(`An error has occured: ${response.statusText}`);
-  //     return; 
-  //   }
-  //   const data = await response.json();
-  //   setNotes(data);
-  //  }
+    if (!response.ok) {
+      window.alert(`An error has occured: ${response.statusText}`);
+      return; 
+    }
+    const data = await response.json();
+    setNotes(data);
+   }
 
-  //  fetchData();
-  // }, [])
+   fetchData();
+  }, [])
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
     if (event.target.name === "title") {
@@ -100,10 +103,12 @@ const App: FC = () => {
           </div>
         </form>
       </div>
-      <div className="note-list">
-        {notes.map((note: INote, key: number) => {
-          return <Note key={key} note={note} handleDelete={handleDelete}/>;
-        })}
+      <div className="note-list-container">
+        <div className="note-list">
+          {notes.map((note: INote, key: number) => {
+            return <Note key={key} note={note} handleDelete={handleDelete}/>;
+          })}
+        </div>
       </div>
       <Footer />
     </div>
