@@ -4,10 +4,12 @@ const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
 
+console.log(port);
+
 
 app.use(cors());
 app.use(express.json());
-app.use(require("./routes/note"));
+app.use('/api/note', require("./routes/note"));
 
 // get driver connection
 const dbo = require("./config/db");

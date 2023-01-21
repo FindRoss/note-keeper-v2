@@ -13,7 +13,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 
 // This section will help you get a list of all the records.
-recordRoutes.route("/api/note").get(function (req, res) {
+recordRoutes.route("/").get(function (req, res) {
   let db_connect = dbo.getDb("notes");
   db_connect
     .collection("notes")
@@ -25,7 +25,7 @@ recordRoutes.route("/api/note").get(function (req, res) {
 });
 
 // This section will help you get a single record by id
-recordRoutes.route("/api/note/:id").get(function (req, res) {
+recordRoutes.route("/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect
@@ -37,7 +37,7 @@ recordRoutes.route("/api/note/:id").get(function (req, res) {
 });
 
 // This section will help you create a new record.
-recordRoutes.route("/api/note/add").post(function (req, response) {
+recordRoutes.route("/add").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myobj = {
     title: req.body.title,
@@ -50,7 +50,7 @@ recordRoutes.route("/api/note/add").post(function (req, response) {
 });
 
 // This section will help you update a record by id.
-recordRoutes.route("/api/note/:id").post(function (req, response) {
+recordRoutes.route("/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
@@ -70,7 +70,7 @@ recordRoutes.route("/api/note/:id").post(function (req, response) {
 });
 
 // This section will help you delete a record
-recordRoutes.route("/api/:id").delete((req, response) => {
+recordRoutes.route("/:id").delete((req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect.collection("notes").deleteOne(myquery, function (err, obj) {
