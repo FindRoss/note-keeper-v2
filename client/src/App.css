@@ -164,6 +164,11 @@ form button:focus {
 .delete {
   display: flex;
   justify-content: flex-end;
+  visibility: hidden;
+}
+
+.note:hover .delete {
+  visibility: visible;
 }
 
 .delete span {
@@ -190,6 +195,7 @@ form button:focus {
   padding: 0.5rem 0;
   font-style: italic;
   color: #757575;
+  margin-top: 2rem;
 }
 
 /* MEDIA QUERIS */

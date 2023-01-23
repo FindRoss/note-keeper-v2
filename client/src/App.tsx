@@ -21,23 +21,20 @@ const App: FC = () => {
   const [notes, setNotes] = useState<INote[]>([]);
   const [showTitle, setShowTitle] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchData() {
-    
-    console.log("Trying to log the env variable: ", process.env.REACT_APP_URL);
 
+  async function fetchData() {
     const response = await fetch(`${process.env.REACT_APP_URL}/api/note`)
-
     if (!response.ok) {
       window.alert(`An error has occured: ${response.statusText}`);
       return; 
     }
     const data = await response.json();
     setNotes(data);
-   }
+  }
 
+  useEffect(() => {
    fetchData();
-  }, [])
+  }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void => {
     if (event.target.name === "title") {
@@ -47,51 +44,52 @@ const App: FC = () => {
     }
   };
 
-  // Temporary function which will replaced by the addNotes POST below
-  function addNote(event: React.FormEvent<HTMLButtonElement>): void {
+  // ADD note
+  async function addNote(event: React.FormEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     const newNote = { title, content };
     // Validate note
     if (title === "" && content === "") return alert("Please fill in atleast one field.")
-    setNotes([...notes, newNote]);
+    // Fetch request
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newNote)
+    }
+    const response = await fetch(`${process.env.REACT_APP_URL}/api/note/add`, options)
+    if (!response.ok) {
+      window.alert(`An error has occured: ${response.statusText}`);
+      return;
+    }
     setTitle("");
     setContent("");
+    fetchData();
   };
 
-  // async function addNote(event: React.FormEvent<HTMLButtonElement>) {
-  //   event.preventDefault();
-
-  //   if (title === "" && content === "") return alert("Please fill in atleast one field.")
+  // DELETE note
+  async function handleDelete (id: string | undefined): Promise<void> {
+    const response = await fetch(`${process.env.REACT_APP_URL}/api/note/${id}`, { method: 'DELETE' });
+    if (!response.ok) {
+      window.alert(`An error has occured: ${response.statusText}`);
+      return;
+    }
+    fetchData();
+  }
   
-  //   // When a post request is sent to the create url, we'll add a new record to the database.
-  //   const newNote = { title, content };
-  
-  //   await fetch("http://localhost:5000/note/add", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(newNote),
-  //   })
-  //   .catch(error => {
-  //     window.alert(error);
-  //     return;
-  //   });
-    
-  //   setTitle("");
-  //   setContent("");
-  // }
-
+  // Click anywhere on the page outside form to dismiss title field
   function handleFormClick (event: React.MouseEvent<HTMLElement>): void {
     const formEl: HTMLElement | null = document.querySelector('.input-container');
     const targetEl = event.target as HTMLElement;
     if (!formEl?.contains(targetEl)) setShowTitle(false);
   }
 
-  function handleDelete (id: string | undefined): void {
-    setNotes(notes.filter(note => {
-      return note.title !== id;
-    }))
+  function handleNoteClick (event: React.MouseEvent<HTMLElement>, id: string | undefined): void {
+    const target = event.target as Element;
+    if (!target.matches('.delete-button') || !target.matches('.delete-icon')) {
+      // Handle display modal.
+    }
   }
 
   return (
@@ -108,8 +106,8 @@ const App: FC = () => {
       </div>
       <div className="note-list-container">
         <div className="note-list">
-          {notes.map((note: INote, key: number) => {
-            return <Note key={key} note={note} handleDelete={handleDelete}/>;
+          {notes.map((note: INote) => {
+            return <Note key={note._id} note={note} handleDelete={handleDelete} handleNoteClick={handleNoteClick}/>;
           })}
         </div>
       </div>
